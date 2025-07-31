@@ -23,17 +23,6 @@ variable "vpc_id" {
   type        = string
   default     = "" # leave empty to use the default VPC
 }
-
-
-
-
-
-
-
-
-
-
-
 #ignore everything below this line, work in progress
 variable "create_vpc" {
   type    = bool
