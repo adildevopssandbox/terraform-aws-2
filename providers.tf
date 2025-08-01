@@ -3,7 +3,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.0"
+      version = "4.66.0"
     }
   }
 }
@@ -14,3 +14,4 @@ provider "aws" {
   #access_key = "--- IGNORE ---"
   #secret_key = "--- IGNORE ---"
 }
+
