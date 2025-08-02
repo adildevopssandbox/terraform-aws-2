@@ -1,8 +1,8 @@
 # this is a terraform backend aws config
 terraform {
   backend "s3" {
-    bucket         = var.back_bucket
-    key            = var.back_key
-    region         = var.aws_region
+    bucket         = "terraformin-backend-aa"
+    key            = "teraform/state"
+    region         = "us-east-1"
   }
 }
