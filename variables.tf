@@ -45,7 +45,7 @@ variable "s3_bucket_name" {
 variable "cidr_sg" {
   description = "custom ip value for security group"
   type = string
-  default = "192.168.1.155/24"
+  default = "23.234.114.110/32"
 }
 
 # compute ------------------------

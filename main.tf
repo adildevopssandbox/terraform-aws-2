@@ -1,6 +1,6 @@
 # network config ---------------------------
 resource "aws_vpc" "main_vpc" {
-  cidr_block = "10.0.0/16"
+  cidr_block = "10.0.0.0/16"
   tags = {
     Name = var.vpc_name
   }
@@ -8,12 +8,22 @@ resource "aws_vpc" "main_vpc" {
 
 resource "aws_subnet" "subnet_a" {
   vpc_id = aws_vpc.main_vpc.id
-  cidr_block = "10.0.0/24"
+  cidr_block = "10.0.0.0/24"
   availability_zone = var.aws_availability_zone[0]
   tags = {
     Name = var.subnet_name
   }
 }
+
+resource "aws_subnet" "subnet_b" {
+  vpc_id = aws_vpc.main_vpc.id
+  cidr_block = "10.0.1.0/24"
+  availability_zone = var.aws_availability_zone[1]
+  tags = {
+    Name = "sub-b"
+  }
+}
+
 
 # storage buckets ---------------------
 resource "aws_s3_bucket" "static_site" {
@@ -103,7 +113,7 @@ data "aws_ami" "amazon_linux" {
 resource "aws_instance" "ec2" {
   ami           = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.subnet_a
+  subnet_id     = aws_subnet.subnet_a.id
 
   tags = {
     Name = var.instance_name
@@ -115,7 +125,7 @@ resource "aws_db_instance" "rds" {
   allocated_storage    = 10
   db_name              = "mydb"
   engine               = "postgres"
-  engine_version       = "15.4"
+  engine_version       = "15.13"
   instance_class       = "db.t3.micro"
   username             = var.db_username
   password             = var.db_password
@@ -130,6 +140,6 @@ resource "aws_db_instance" "rds" {
 
 resource "aws_db_subnet_group" "rds_subnet" {
   name       = var.rds_subnet_group_name
-  subnet_ids = [aws_subnet.subnet_a.id]
+  subnet_ids = [aws_subnet.subnet_a.id, aws_subnet.subnet_b.id]
 }
 
